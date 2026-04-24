@@ -1,0 +1,1005 @@
+
+
+!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>India Income Tax Calculator 2025-26</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    /* =============================================
+       CSS VARIABLES & RESET
+    ============================================= */
+    :root {
+      --bg:        #0a0c10;
+      --surface:   #111318;
+      --card:      #181c24;
+      --border:    #252a35;
+      --accent:    #f97316;       /* saffron-orange — India flag */
+      --accent2:   #22c55e;       /* India green */
+      --accent3:   #3b82f6;       /* blue */
+      --text:      #e8eaf0;
+      --muted:     #6b7280;
+      --danger:    #ef4444;
+      --glow:      rgba(249,115,22,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* =============================================
+       BACKGROUND GRID TEXTURE
+    ============================================= */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(249,115,22,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(249,115,22,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* =============================================
+       LAYOUT
+    ============================================= */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    /* =============================================
+       HEADER
+    ============================================= */
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .flag-strip {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .flag-strip span {
+      display: block;
+      width: 28px; height: 4px;
+      border-radius: 2px;
+    }
+    .flag-strip .saffron { background: #FF9933; }
+    .flag-strip .white   { background: #ffffff; }
+    .flag-strip .green   { background: #138808; }
+
+    header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    header h1 span { color: var(--accent); }
+
+    header p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 300;
+    }
+
+    /* =============================================
+       STEP INDICATOR
+    ============================================= */
+    .steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 36px;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .step-dot {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--muted);
+      transition: all 0.3s;
+    }
+    .step-dot.active {
+      border-color: var(--accent);
+      background: var(--glow);
+      color: var(--accent);
+    }
+    .step-dot.done {
+      border-color: var(--accent2);
+      background: rgba(34,197,94,0.12);
+      color: var(--accent2);
+    }
+    .step-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      margin: 0 8px;
+      margin-bottom: 22px;
+      max-width: 60px;
+    }
+
+    /* =============================================
+       CARDS
+    ============================================= */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+      display: none;
+      animation: fadeUp 0.4s ease;
+    }
+    .card.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-title .tag {
+      font-size: 0.65rem;
+      font-family: 'DM Mono', monospace;
+      background: var(--glow);
+      color: var(--accent);
+      border: 1px solid rgba(249,115,22,0.3);
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.06em;
+    }
+    .card-sub {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 28px;
+    }
+
+    /* =============================================
+       FORM ELEMENTS
+    ============================================= */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="tel"] {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow);
+    }
+    input::placeholder { color: var(--muted); opacity: 0.6; }
+
+    /* =============================================
+       BUTTONS
+    ============================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      width: 100%;
+      justify-content: center;
+    }
+    .btn-primary:hover {
+      background: #ea6b10;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(249,115,22,0.3);
+    }
+    .btn-green {
+      background: var(--accent2);
+      color: #fff;
+      width: 100%;
+      justify-content: center;
+    }
+    .btn-green:hover {
+      background: #16a34a;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(34,197,94,0.3);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    /* =============================================
+       TAX RESULT DISPLAY
+    ============================================= */
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 480px) { .result-grid { grid-template-columns: 1fr; } }
+
+    .result-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .result-item.highlight {
+      border-color: var(--accent);
+      background: var(--glow);
+    }
+    .result-item.zero {
+      border-color: var(--accent2);
+      background: rgba(34,197,94,0.08);
+    }
+    .result-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .result-value {
+      font-family: 'DM Mono', monospace;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .result-item.highlight .result-value { color: var(--accent); }
+    .result-item.zero .result-value { color: var(--accent2); }
+
+    /* Slab breakdown table */
+    .slab-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin-top: 16px;
+    }
+    .slab-table th {
+      text-align: left;
+      color: var(--muted);
+      font-weight: 500;
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--border);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+    }
+    .slab-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(37,42,53,0.5);
+      font-family: 'DM Mono', monospace;
+    }
+    .slab-table tr:last-child td { border-bottom: none; }
+    .slab-table .active-slab td { color: var(--accent); }
+    .slab-table .total-row td {
+      color: var(--text);
+      font-weight: 500;
+      border-top: 1px solid var(--border);
+    }
+
+    /* =============================================
+       UPI / PAYMENT SECTION
+    ============================================= */
+    .upi-box {
+      background: var(--surface);
+      border: 1px dashed rgba(249,115,22,0.4);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .upi-box .qr-placeholder {
+      width: 140px; height: 140px;
+      margin: 0 auto 16px;
+      background: #fff;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Simple QR pattern using CSS — replace with real QR image */
+    .qr-placeholder svg { width: 120px; height: 120px; }
+
+    .upi-id-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--accent);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .upi-id-badge:hover { border-color: var(--accent); }
+    .upi-id-badge .copy-icon { font-size: 0.75rem; color: var(--muted); }
+
+    .payment-amount {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 8px 0 4px;
+    }
+    .payment-note {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* =============================================
+       STATUS MESSAGES
+    ============================================= */
+    .status-box {
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .status-box.show { display: block; }
+    .status-box.success {
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.3);
+      color: #86efac;
+    }
+    .status-box.error {
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.3);
+      color: #fca5a5;
+    }
+    .status-box.info {
+      background: rgba(59,130,246,0.08);
+      border: 1px solid rgba(59,130,246,0.3);
+      color: #93c5fd;
+    }
+    .status-box.warning {
+      background: rgba(249,115,22,0.08);
+      border: 1px solid rgba(249,115,22,0.3);
+      color: #fdba74;
+    }
+
+    /* =============================================
+       DOWNLOAD SECTION
+    ============================================= */
+    #download-section { text-align: center; }
+    .check-status-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .check-status-row input { flex: 1; }
+
+    .pending-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: rgba(249,115,22,0.08);
+      border: 1px solid rgba(249,115,22,0.3);
+      border-radius: 8px;
+      color: #fdba74;
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+    }
+    .pending-dot {
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer {
+      text-align: center;
+      margin-top: 48px;
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* =============================================
+       DIVIDER
+    ============================================= */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
+
+    /* Loading spinner */
+    .spinner {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="flag-strip">
+      <span class="saffron"></span><span class="saffron"></span>
+      <span class="white"></span><span class="white"></span>
+      <span class="green"></span><span class="green"></span>
+    </div>
+    <h1>India Income Tax<br><span>Calculator 2025-26</span></h1>
+    <p>New Tax Regime · FY 2025-26 · AY 2026-27</p>
+  </header>
+
+  <!-- STEP INDICATOR -->
+  <div class="steps">
+    <div class="step">
+      <div class="step-dot active" id="dot-1">01</div>
+      <div class="step-label">Calculate</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-dot" id="dot-2">02</div>
+      <div class="step-label">Pay</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-dot" id="dot-3">03</div>
+      <div class="step-label">Download</div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       STEP 1 — CALCULATE TAX
+  =========================================== -->
+  <div class="card active" id="card-calculate">
+    <div class="card-title">
+      Tax Calculator
+      <span class="tag">STEP 01</span>
+    </div>
+    <div class="card-sub">Enter your gross annual income to compute tax liability under the New Tax Regime</div>
+
+    <div class="form-group">
+      <label>Annual Income (₹)</label>
+      <input type="number" id="income" placeholder="e.g. 1200000" min="0" step="1000"/>
+    </div>
+
+    <button class="btn btn-primary" onclick="calculateTax()">
+      <span>Calculate Tax</span>
+    </button>
+
+    <!-- Result area (hidden until calculated) -->
+    <div id="result-area" style="display:none; margin-top:28px;">
+      <hr class="divider"/>
+      <div class="result-grid" id="result-grid">
+        <!-- Populated by JS -->
+      </div>
+
+      <details style="margin-bottom:20px;">
+        <summary style="cursor:pointer; font-size:0.8rem; color:var(--muted); margin-bottom:8px;">
+          View slab-wise breakdown ▾
+        </summary>
+        <table class="slab-table" id="slab-table">
+          <thead>
+            <tr>
+              <th>Slab</th>
+              <th>Rate</th>
+              <th>Taxable</th>
+              <th>Tax</th>
+            </tr>
+          </thead>
+          <tbody id="slab-tbody"></tbody>
+        </table>
+      </details>
+
+      <button class="btn btn-primary" onclick="goToPayment()" id="pay-btn">
+        Pay ₹99 &amp; Download Report →
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       STEP 2 — PAYMENT
+  =========================================== -->
+  <div class="card" id="card-payment">
+    <div class="card-title">
+      UPI Payment
+      <span class="tag">STEP 02</span>
+    </div>
+    <div class="card-sub">Pay via any UPI app, then submit your transaction details below</div>
+
+    <!-- UPI Box -->
+    <div class="upi-box">
+      <div class="qr-placeholder">
+        <!--
+          REPLACE the SVG below with your actual QR code image:
+          <img src="your_qr.png" width="120" height="120" alt="UPI QR"/>
+        -->
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <!-- Finder patterns -->
+          <rect x="5" y="5" width="35" height="35" rx="3" fill="#000"/>
+          <rect x="9" y="9" width="27" height="27" rx="1" fill="#fff"/>
+          <rect x="13" y="13" width="19" height="19" rx="1" fill="#000"/>
+          <rect x="80" y="5" width="35" height="35" rx="3" fill="#000"/>
+          <rect x="84" y="9" width="27" height="27" rx="1" fill="#fff"/>
+          <rect x="88" y="13" width="19" height="19" rx="1" fill="#000"/>
+          <rect x="5" y="80" width="35" height="35" rx="3" fill="#000"/>
+          <rect x="9" y="84" width="27" height="27" rx="1" fill="#fff"/>
+          <rect x="13" y="88" width="19" height="19" rx="1" fill="#000"/>
+          <!-- Data modules (simplified pattern) -->
+          <rect x="47" y="5" width="6" height="6" fill="#000"/>
+          <rect x="55" y="5" width="6" height="6" fill="#000"/>
+          <rect x="63" y="5" width="6" height="6" fill="#000"/>
+          <rect x="47" y="13" width="6" height="6" fill="#000"/>
+          <rect x="63" y="13" width="6" height="6" fill="#000"/>
+          <rect x="55" y="21" width="6" height="6" fill="#000"/>
+          <rect x="47" y="47" width="6" height="6" fill="#000"/>
+          <rect x="55" y="47" width="6" height="6" fill="#000"/>
+          <rect x="47" y="55" width="6" height="6" fill="#000"/>
+          <rect x="63" y="55" width="6" height="6" fill="#000"/>
+          <rect x="47" y="63" width="6" height="6" fill="#000"/>
+          <rect x="55" y="63" width="6" height="6" fill="#000"/>
+          <rect x="63" y="63" width="6" height="6" fill="#000"/>
+          <rect x="5" y="47" width="6" height="6" fill="#000"/>
+          <rect x="13" y="47" width="6" height="6" fill="#000"/>
+          <rect x="21" y="47" width="6" height="6" fill="#000"/>
+          <rect x="29" y="47" width="6" height="6" fill="#000"/>
+          <rect x="5" y="55" width="6" height="6" fill="#000"/>
+          <rect x="21" y="55" width="6" height="6" fill="#000"/>
+          <rect x="29" y="63" width="6" height="6" fill="#000"/>
+          <rect x="80" y="47" width="6" height="6" fill="#000"/>
+          <rect x="88" y="47" width="6" height="6" fill="#000"/>
+          <rect x="96" y="47" width="6" height="6" fill="#000"/>
+          <rect x="104" y="47" width="6" height="6" fill="#000"/>
+          <rect x="80" y="55" width="6" height="6" fill="#000"/>
+          <rect x="96" y="55" width="6" height="6" fill="#000"/>
+          <rect x="88" y="63" width="6" height="6" fill="#000"/>
+          <rect x="80" y="80" width="6" height="6" fill="#000"/>
+          <rect x="88" y="80" width="6" height="6" fill="#000"/>
+          <rect x="96" y="80" width="6" height="6" fill="#000"/>
+          <rect x="104" y="80" width="6" height="6" fill="#000"/>
+          <rect x="80" y="88" width="6" height="6" fill="#000"/>
+          <rect x="104" y="88" width="6" height="6" fill="#000"/>
+          <rect x="88" y="96" width="6" height="6" fill="#000"/>
+          <rect x="80" y="104" width="6" height="6" fill="#000"/>
+          <rect x="96" y="104" width="6" height="6" fill="#000"/>
+          <rect x="104" y="104" width="6" height="6" fill="#000"/>
+        </svg>
+      </div>
+
+      <div class="payment-amount">₹99</div>
+      <div class="payment-note">Report download fee · One-time</div>
+      <br/>
+
+      <!-- UPI ID — change to your actual UPI ID -->
+      <div class="upi-id-badge" onclick="copyUPI(this)" title="Click to copy">
+        <span>yourname@upi</span>
+        <span class="copy-icon">📋 Copy</span>
+      </div>
+      <p style="font-size:0.72rem; color:var(--muted); margin-top:12px;">
+        Scan QR or use UPI ID in GPay / PhonePe / Paytm / BHIM
+      </p>
+    </div>
+
+    <!-- Payment Form -->
+    <div class="form-group">
+      <label>Your Full Name</label>
+      <input type="text" id="p-name" placeholder="As per PAN card"/>
+    </div>
+    <div class="form-group">
+      <label>Mobile Number</label>
+      <input type="tel" id="p-mobile" placeholder="10-digit mobile number" maxlength="10"/>
+    </div>
+    <div class="form-group">
+      <label>UTR / Transaction Reference Number</label>
+      <input type="text" id="p-utr" placeholder="12-digit UTR from your UPI app"/>
+    </div>
+
+    <div id="pay-status" class="status-box"></div>
+
+    <button class="btn btn-primary" id="submit-btn" onclick="submitPayment()">
+      Submit Payment Details
+    </button>
+
+    <br/><br/>
+    <button class="btn btn-outline" onclick="goBack()">← Back to Calculator</button>
+  </div>
+
+  <!-- ==========================================
+       STEP 3 — DOWNLOAD
+  =========================================== -->
+  <div class="card" id="card-download">
+    <div class="card-title">
+      Download Report
+      <span class="tag">STEP 03</span>
+    </div>
+    <div class="card-sub">Enter your mobile number to check payment approval status and download your report</div>
+
+    <div id="download-section">
+      <div class="check-status-row">
+        <input type="tel" id="d-mobile" placeholder="Your registered mobile number" maxlength="10"/>
+        <button class="btn btn-outline" onclick="checkStatus()">Check</button>
+      </div>
+
+      <div id="download-status" class="status-box"></div>
+
+      <div id="pending-indicator" style="display:none; text-align:center;">
+        <div class="pending-badge">
+          <span class="pending-dot"></span>
+          Payment verification pending — Admin will approve shortly
+        </div>
+        <p style="font-size:0.78rem; color:var(--muted);">
+          Usually takes 5–15 minutes during business hours.<br/>
+          Come back and check again.
+        </p>
+      </div>
+
+      <button class="btn btn-green" id="download-btn" style="display:none;" onclick="downloadReport()">
+        ⬇ Download Tax Report (.xlsx)
+      </button>
+    </div>
+
+    <br/>
+    <button class="btn btn-outline" onclick="resetAll()">← Start New Calculation</button>
+  </div>
+
+</div><!-- /wrapper -->
+
+<footer>
+  <p>Tax calculated as per <strong>New Tax Regime</strong> · Rebate u/s 87A applied · 4% Cess included</p>
+  <p style="margin-top:4px;">For informational purposes only. Consult a CA for official filing.</p>
+</footer>
+
+<!-- =============================================
+     JAVASCRIPT
+============================================= -->
+<script>
+  // ── Config ───────────────────────────────────────────
+  // Change this to your Flask server URL when deploying
+  const API_BASE = 'https://incometax-w9gr.onrender.com';
+
+  // ── State ────────────────────────────────────────────
+  let taxResult = null;   // stores last calculation result
+
+  // ── Helpers ──────────────────────────────────────────
+  const fmt = n => '₹' + Number(n).toLocaleString('en-IN', {maximumFractionDigits: 0});
+
+  function showStatus(elId, msg, type) {
+    const el = document.getElementById(elId);
+    el.className = `status-box show ${type}`;
+    el.textContent = msg;
+  }
+  function hideStatus(elId) {
+    document.getElementById(elId).className = 'status-box';
+  }
+
+  // ── Step navigation ──────────────────────────────────
+  function activateCard(name) {
+    // Hide all cards
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+    document.getElementById(`card-${name}`).classList.add('active');
+  }
+
+  function updateDots(active) {
+    // active: 1, 2, or 3
+    for (let i = 1; i <= 3; i++) {
+      const d = document.getElementById(`dot-${i}`);
+      d.className = 'step-dot';
+      if (i < active)  d.classList.add('done');
+      if (i === active) d.classList.add('active');
+    }
+  }
+
+  // ── STEP 1: Calculate Tax ────────────────────────────
+  async function calculateTax() {
+    const income = parseFloat(document.getElementById('income').value);
+    if (!income || income < 0) {
+      alert('Please enter a valid annual income.');
+      return;
+    }
+
+    try {
+      // Call Flask backend
+      const res = await fetch(`${API_BASE}/calculate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ income })
+      });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || 'Calculation failed');
+
+      taxResult = { income, ...data };
+      renderResult(data);
+
+    } catch (err) {
+      alert('Error: ' + err.message + '\n\nMake sure Flask server is running on port 5000.');
+    }
+  }
+
+  function renderResult(data) {
+    const area = document.getElementById('result-area');
+    const grid = document.getElementById('result-grid');
+
+    // Build result grid
+    const isZero = data.final_tax === 0;
+    grid.innerHTML = `
+      <div class="result-item">
+        <div class="result-label">Gross Income</div>
+        <div class="result-value">${fmt(data.income)}</div>
+      </div>
+      <div class="result-item">
+        <div class="result-label">Tax Before Cess</div>
+        <div class="result-value">${fmt(data.tax_before_cess)}</div>
+      </div>
+      <div class="result-item">
+        <div class="result-label">Cess (4%)</div>
+        <div class="result-value">${fmt(data.cess)}</div>
+      </div>
+      <div class="result-item ${isZero ? 'zero' : 'highlight'}">
+        <div class="result-label">Final Tax Payable</div>
+        <div class="result-value">${isZero ? '₹0 (Rebate Applied)' : fmt(data.final_tax)}</div>
+      </div>
+    `;
+
+    if (data.rebate_applied) {
+      grid.innerHTML += `
+        <div class="result-item zero" style="grid-column:1/-1;">
+          <div class="result-label">🎉 Section 87A Rebate</div>
+          <div class="result-value" style="font-size:0.9rem;">
+            Income ≤ ₹7L — full rebate applied. Tax = ₹0
+          </div>
+        </div>
+      `;
+    }
+
+    // Build slab table
+    const tbody = document.getElementById('slab-tbody');
+    tbody.innerHTML = '';
+    data.slab_details.forEach(s => {
+      const tr = document.createElement('tr');
+      if (s.tax_on_slab > 0) tr.classList.add('active-slab');
+      tr.innerHTML = `
+        <td>${s.slab}</td>
+        <td>${s.rate}</td>
+        <td>${fmt(s.taxable_amount)}</td>
+        <td>${fmt(s.tax_on_slab)}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // Total row
+    tbody.innerHTML += `
+      <tr class="total-row">
+        <td colspan="3">Total Tax (before cess)</td>
+        <td>${fmt(data.tax_before_cess)}</td>
+      </tr>
+    `;
+
+    area.style.display = 'block';
+  }
+
+  // ── STEP 2: Go to payment ────────────────────────────
+  function goToPayment() {
+    if (!taxResult) return;
+    activateCard('payment');
+    updateDots(2);
+  }
+
+  function goBack() {
+    activateCard('calculate');
+    updateDots(1);
+    hideStatus('pay-status');
+  }
+
+  // Copy UPI ID to clipboard
+  function copyUPI(el) {
+    const upiId = el.querySelector('span').textContent;
+    navigator.clipboard.writeText(upiId).then(() => {
+      el.querySelector('.copy-icon').textContent = '✓ Copied!';
+      setTimeout(() => el.querySelector('.copy-icon').textContent = '📋 Copy', 2000);
+    });
+  }
+
+  // ── Submit payment details ───────────────────────────
+  async function submitPayment() {
+    const name   = document.getElementById('p-name').value.trim();
+    const mobile = document.getElementById('p-mobile').value.trim();
+    const utr    = document.getElementById('p-utr').value.trim();
+
+    if (!name || !mobile || !utr) {
+      showStatus('pay-status', 'Please fill all fields.', 'error');
+      return;
+    }
+    if (!/^\d{10}$/.test(mobile)) {
+      showStatus('pay-status', 'Enter a valid 10-digit mobile number.', 'error');
+      return;
+    }
+    if (!taxResult) {
+      showStatus('pay-status', 'No tax calculation found. Go back and calculate first.', 'error');
+      return;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Submitting…';
+    hideStatus('pay-status');
+
+    try {
+      const res = await fetch(`${API_BASE}/payment-request`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name, mobile, utr,
+          income: taxResult.income,
+          final_tax: taxResult.final_tax
+        })
+      });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || 'Submission failed');
+
+      showStatus('pay-status', '✅ ' + data.message, 'success');
+
+      // Pre-fill download mobile
+      document.getElementById('d-mobile').value = mobile;
+
+      // Move to step 3 after short delay
+      setTimeout(() => {
+        activateCard('download');
+        updateDots(3);
+      }, 1800);
+
+    } catch (err) {
+      showStatus('pay-status', '❌ ' + err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = 'Submit Payment Details';
+    }
+  }
+
+  // ── STEP 3: Check approval & download ───────────────
+  async function checkStatus() {
+    const mobile = document.getElementById('d-mobile').value.trim();
+    if (!/^\d{10}$/.test(mobile)) {
+      showStatus('download-status', 'Enter a valid 10-digit mobile number.', 'error');
+      return;
+    }
+
+    hideStatus('download-status');
+    document.getElementById('pending-indicator').style.display = 'none';
+    document.getElementById('download-btn').style.display = 'none';
+
+    try {
+      const res = await fetch(`${API_BASE}/status/${mobile}`);
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error);
+
+      if (data.approved) {
+        showStatus('download-status', '✅ Payment verified! Your report is ready.', 'success');
+        document.getElementById('download-btn').style.display = 'block';
+      } else {
+        document.getElementById('pending-indicator').style.display = 'block';
+      }
+
+    } catch (err) {
+      showStatus('download-status', '❌ ' + err.message, 'error');
+    }
+  }
+
+  async function downloadReport() {
+    const mobile = document.getElementById('d-mobile').value.trim();
+    // Direct file download via URL
+    window.location.href = `${API_BASE}/download/${mobile}`;
+  }
+
+  function resetAll() {
+    taxResult = null;
+    document.getElementById('income').value = '';
+    document.getElementById('result-area').style.display = 'none';
+    document.getElementById('p-name').value = '';
+    document.getElementById('p-mobile').value = '';
+    document.getElementById('p-utr').value = '';
+    document.getElementById('d-mobile').value = '';
+    document.getElementById('pending-indicator').style.display = 'none';
+    document.getElementById('download-btn').style.display = 'none';
+    hideStatus('pay-status');
+    hideStatus('download-status');
+    activateCard('calculate');
+    updateDots(1);
+  }
+</script>
+
+</body>
+</html>
