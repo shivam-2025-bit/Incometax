@@ -17,14 +17,16 @@
 
 ==========================================================
 """
-
+from flask import render_template
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS          # allows browser to call Flask
 import pandas as pd
 import requests
 import io
 import os
-
+@app.route("/")
+def home():
+    return render_template("index.html")
 app = Flask(__name__)
 CORS(app)   # enable CORS so the HTML page can call the API
 
