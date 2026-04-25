@@ -469,5 +469,10 @@ def admin_dashboard():
 # ──────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
+    import os
     port = int(os.environ.get("PORT", 5000))
+    print("=" * 50)
+    print("India Tax Calculator — Flask Server")
+    print(f"Running on port {port}")
+    print("=" * 50)
     app.run(host="0.0.0.0", port=port)
