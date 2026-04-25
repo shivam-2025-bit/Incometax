@@ -8,9 +8,14 @@
 <h2>Income Tax Calculator</h2>
 
 <form action="/calculate" method="post">
-    Enter Salary: <input type="number" name="salary" required>
+    <label>Enter Salary:</label>
+    <input type="number" name="salary" required>
     <button type="submit">Calculate</button>
 </form>
+
+{% if result %}
+    <h3>{{ result }}</h3>
+{% endif %}
 
 </body>
 </html>
