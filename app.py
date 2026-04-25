@@ -17,13 +17,17 @@
 
 ==========================================================
 """
-from flask import render_template
-from flask import Flask, request, jsonify, send_file
-from flask_cors import CORS          # allows browser to call Flask
+from flask import Flask, request, jsonify, send_file, render_template
+from flask_cors import CORS
 import pandas as pd
 import requests
 import io
 import os
+
+app = Flask(__name__)   # ✅ FIRST create app
+CORS(app)
+
+# ✅ THEN define routes
 @app.route("/")
 def home():
     return render_template("index.html")
