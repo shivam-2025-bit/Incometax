@@ -1,0 +1,13 @@
+# Virtual environments
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Excel reports generated locally
+*.xlsx
+
+# Mac system files
+.DS_Store
