@@ -1,77 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Terms & Conditions | TaxCalcIndia</title>
-<meta name="description" content="Terms and conditions for using TaxCalcIndia income tax calculator.">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-<header>
-  <nav class="navbar">
-    <div class="nav-brand"><span class="brand-icon">₹</span><span class="brand-name">TaxCalc<span class="brand-accent">India</span></span></div>
-    <ul class="nav-links"><li><a href="/">Calculator</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul>
-    <button class="dark-toggle" id="darkToggle">🌙</button>
-  </nav>
-</header>
-<main>
-  <div class="static-page">
-    <h1>Terms & Conditions</h1>
-    <p class="last-updated">Last updated: April 2025</p>
-
-    <h2>1. Acceptance of Terms</h2>
-    <p>By accessing and using TaxCalcIndia, you accept and agree to be bound by these Terms and Conditions. If you do not agree, please do not use our service.</p>
-
-    <h2>2. Disclaimer — Not Professional Tax Advice</h2>
-    <p>TaxCalcIndia is an online tool designed to provide approximate income tax estimates based on officially published Indian tax slabs. The results are for informational and educational purposes only. They do not constitute professional tax, legal, or financial advice.</p>
-    <p>Tax laws change frequently. Always consult a qualified Chartered Accountant (CA) or tax professional before filing your income tax return or making financial decisions based on tax calculations.</p>
-
-    <h2>3. Accuracy of Calculations</h2>
-    <p>We strive to keep our tax slabs and calculation logic accurate and up-to-date with the latest Finance Act notifications. However, we make no warranties, express or implied, regarding the accuracy, completeness, or reliability of the calculations provided. Actual tax liability may differ based on individual circumstances, special income types, and specific deductions not captured in this tool.</p>
-
-    <h2>4. Use of Service</h2>
-    <p>You agree to use TaxCalcIndia only for lawful purposes. You must not:</p>
-    <ul>
-      <li>Use the service to engage in any fraudulent activity</li>
-      <li>Attempt to gain unauthorized access to our systems</li>
-      <li>Use automated tools to scrape or harvest data from our website</li>
-      <li>Reproduce, duplicate, or resell any portion of our service without permission</li>
-    </ul>
-
-    <h2>5. Intellectual Property</h2>
-    <p>The content, design, code, and materials on this website are the property of TaxCalcIndia and are protected by applicable intellectual property laws. You may not copy or reproduce them without prior written permission.</p>
-
-    <h2>6. Limitation of Liability</h2>
-    <p>To the fullest extent permitted by law, TaxCalcIndia and its operators shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising from your use of, or inability to use, our service.</p>
-
-    <h2>7. Advertising</h2>
-    <p>This website displays advertisements via Google AdSense. We are not responsible for the content of third-party advertisements. Clicking on ads may take you to third-party websites not governed by these Terms.</p>
-
-    <h2>8. Changes to Terms</h2>
-    <p>We reserve the right to update these Terms at any time. Continued use of the service after any changes constitutes acceptance of the new Terms.</p>
-
-    <h2>9. Governing Law</h2>
-    <p>These Terms shall be governed by and construed in accordance with the laws of India. Any disputes shall be subject to the exclusive jurisdiction of courts in India.</p>
-
-    <h2>10. Contact</h2>
-    <p>For any questions regarding these Terms, please visit our <a href="/contact">Contact page</a>.</p>
-  </div>
-</main>
-<footer>
-  <div class="footer-inner">
-    <p class="footer-brand">₹ TaxCalcIndia</p>
-    <div class="footer-links">
-      <a href="/privacy">Privacy Policy</a><a href="/terms">Terms & Conditions</a><a href="/about">About Us</a><a href="/contact">Contact</a>
-    </div>
-    <p class="footer-copy">© 2025 TaxCalcIndia. All rights reserved.</p>
-  </div>
-</footer>
-<script>
-const html = document.documentElement; const btn = document.getElementById('darkToggle');
-const t = localStorage.getItem('theme') || 'light'; html.setAttribute('data-theme', t); btn.textContent = t === 'dark' ? '☀️' : '🌙';
-btn.addEventListener('click', () => { const nt = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; html.setAttribute('data-theme', nt); localStorage.setItem('theme', nt); btn.textContent = nt === 'dark' ? '☀️' : '🌙'; });
-</script>
-</body>
-</html>
+<header><nav class="navbar">
+  <a class="nav-brand" href="/"><span class="brand-pill">₹</span><span>TaxCalc<b>India</b></span></a>
+  <ul class="nav-links"><li><a href="/">Calculator</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul>
+  <button class="dark-btn" id="darkBtn">🌙</button>
+</nav></header>
+<main><div class="static-wrap">
+  <h1>Terms & Conditions</h1>
+  <p class="updated">Last updated: April 2025</p>
+  <h2>1. Acceptance</h2>
+  <p>By using TaxCalcIndia you agree to these Terms. If you disagree, please do not use the service.</p>
+  <h2>2. Not Professional Tax Advice</h2>
+  <p>TaxCalcIndia provides income tax estimates for informational purposes only. Results are based on publicly available tax slabs and do not constitute professional tax, legal, or financial advice. Always consult a qualified Chartered Accountant before filing your ITR.</p>
+  <h2>3. Accuracy</h2>
+  <p>We maintain our tax slabs as per the Finance Act 2025. However, we make no warranty of accuracy, completeness or fitness for a particular purpose. Actual tax may differ based on special income types, assessment orders, or provisions not covered by this calculator.</p>
+  <h2>4. Payments & Refunds</h2>
+  <p>PDF report downloads are charged at ₹500 per report, processed via Razorpay. Payments are non-refundable once the PDF has been successfully generated and delivered. If you experience a technical failure, contact us within 48 hours for resolution.</p>
+  <h2>5. AI Summary</h2>
+  <p>AI-generated summaries are produced by a third-party model (HuggingFace) and may not be perfectly accurate. Do not rely on them for tax filing decisions.</p>
+  <h2>6. Prohibited Use</h2>
+  <ul>
+    <li>Scraping or automated data harvesting</li>
+    <li>Reselling or republishing our calculation results</li>
+    <li>Using the service for fraudulent purposes</li>
+  </ul>
+  <h2>7. Intellectual Property</h2>
+  <p>All content, code, and design on this website is the property of TaxCalcIndia. Reproduction without written permission is prohibited.</p>
+  <h2>8. Limitation of Liability</h2>
+  <p>TaxCalcIndia and its operators are not liable for any damages arising from use of or inability to use this service, including errors in tax calculations.</p>
+  <h2>9. Governing Law</h2>
+  <p>These terms are governed by Indian law. Disputes are subject to Indian court jurisdiction.</p>
+  <h2>10. Contact</h2>
+  <p>Questions? <a href="/contact">Contact us here</a>.</p>
+</div></main>
+<footer><div class="footer-inner">
+  <p class="f-brand">₹ TaxCalcIndia</p>
+  <div class="f-links"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/about">About</a><a href="/contact">Contact</a></div>
+  <p class="f-copy">© 2025 TaxCalcIndia</p>
+</div></footer>
+<script>const h=document.documentElement,b=document.getElementById('darkBtn'),t=localStorage.getItem('theme')||'light';h.setAttribute('data-theme',t);b.textContent=t==='dark'?'☀️':'🌙';b.addEventListener('click',()=>{const nt=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',nt);localStorage.setItem('theme',nt);b.textContent=nt==='dark'?'☀️':'🌙';});</script>
+</body></html>

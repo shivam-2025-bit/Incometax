@@ -3,200 +3,211 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>India Income Tax Calculator 2025-26 | Free Online Tax Calculator</title>
-<meta name="description" content="Calculate your Indian income tax instantly for FY 2025-26. Compare Old vs New tax regime, get slab-wise breakdown, surcharge, cess, and take-home salary. Free, accurate, and updated.">
-<meta name="keywords" content="income tax calculator india 2025, new tax regime calculator, old tax regime, tax slabs india, section 87A rebate, salary tax calculator">
-<meta name="author" content="TaxCalc India">
-<meta property="og:title" content="India Income Tax Calculator 2025-26">
-<meta property="og:description" content="Free accurate Indian income tax calculator with Old vs New regime comparison">
-<meta property="og:type" content="website">
-<link rel="canonical" href="/">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>India Income Tax Calculator 2025-26 | Free + PDF Report | TaxCalcIndia</title>
+<meta name="description" content="Calculate Indian income tax FY 2025-26 instantly. Compare Old vs New regime, get AI-powered summary, and download a detailed PDF report for ₹500.">
+<meta name="keywords" content="income tax calculator india 2025, new tax regime, old tax regime, 87A rebate, tax slab, pdf report, razorpay">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/css/style.css">
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
 
-<!-- Top Ad Banner -->
-<div class="ad-banner top-ad" aria-label="Advertisement">
-  <span class="ad-label">Advertisement</span>
-  <!-- Replace with AdSense code after approval -->
-  <div class="ad-placeholder" style="min-height:90px;display:flex;align-items:center;justify-content:center;color:#888;font-size:13px;">Ad Space (728×90)</div>
-</div>
+<!-- Top Ad -->
+<div class="ad-strip top-ad"><span class="ad-label">AD</span><div class="ad-ph">Advertisement — 728×90</div></div>
 
 <header>
   <nav class="navbar">
-    <div class="nav-brand">
-      <span class="brand-icon">₹</span>
-      <span class="brand-name">TaxCalc<span class="brand-accent">India</span></span>
-    </div>
+    <a class="nav-brand" href="/"><span class="brand-pill">₹</span><span>TaxCalc<b>India</b></span></a>
     <ul class="nav-links">
       <li><a href="/">Calculator</a></li>
       <li><a href="/about">About</a></li>
       <li><a href="/contact">Contact</a></li>
     </ul>
-    <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode">🌙</button>
+    <button class="dark-btn" id="darkBtn" aria-label="Toggle theme">🌙</button>
   </nav>
 </header>
 
 <main>
+  <!-- Hero -->
   <section class="hero">
-    <div class="hero-badge">FY 2025–26 · AY 2026–27</div>
-    <h1>India Income Tax<br><span class="gradient-text">Calculator</span></h1>
-    <p class="hero-sub">Compare Old vs New regime instantly. Get accurate slab-wise breakdown with surcharge, cess & take-home salary.</p>
+    <div class="hero-chip">FY 2025-26 · Updated for Budget 2025</div>
+    <h1>Income Tax<br><span class="grad">Calculator India</span></h1>
+    <p>Instant Old vs New regime comparison · AI-powered summary · Download PDF report</p>
+    <div class="hero-stats">
+      <div class="stat"><span>₹0</span><small>Tax if income ≤ ₹12L (New Regime)</small></div>
+      <div class="stat-div"></div>
+      <div class="stat"><span>4%</span><small>Health & Ed. Cess</small></div>
+      <div class="stat-div"></div>
+      <div class="stat"><span>87A</span><small>Rebate Available</small></div>
+    </div>
   </section>
 
-  <div class="layout-wrapper">
-    <!-- Sidebar Ad -->
-    <aside class="sidebar-ad" aria-label="Advertisement">
-      <span class="ad-label">Advertisement</span>
-      <div class="ad-placeholder" style="min-height:600px;display:flex;align-items:center;justify-content:center;color:#888;font-size:13px;writing-mode:vertical-rl;">Ad Space (160×600)</div>
-    </aside>
+  <div class="main-wrap">
+    <!-- Left Sidebar Ad -->
+    <aside class="sidebar-ad"><span class="ad-label">AD</span><div class="ad-ph vertical">160×600</div></aside>
 
-    <div class="calculator-area">
-      <!-- Input Card -->
-      <div class="card input-card">
-        <h2>Enter Your Details</h2>
+    <div class="content-col">
 
-        <div class="form-grid">
-          <div class="form-group full-width">
-            <label for="income">Annual Income (₹)</label>
-            <div class="input-wrap">
-              <span class="input-prefix">₹</span>
-              <input type="number" id="income" placeholder="e.g. 1200000" min="0" max="100000000">
-            </div>
-            <small id="incomeDisplay" class="income-label"></small>
+      <!-- INPUT CARD -->
+      <div class="card" id="inputCard">
+        <div class="card-header"><h2>Enter Your Details</h2><span class="badge">FY 2025-26</span></div>
+
+        <div class="field-group">
+          <label for="income">Annual Gross Income</label>
+          <div class="inp-wrap">
+            <span class="inp-sym">₹</span>
+            <input type="number" id="income" placeholder="e.g. 1200000" min="0">
           </div>
+          <div class="income-words" id="incomeWords"></div>
+        </div>
 
-          <div class="form-group">
+        <div class="two-col">
+          <div class="field-group">
             <label>Age Category</label>
-            <div class="pill-group" id="ageGroup">
-              <button class="pill active" data-val="below60">Below 60</button>
-              <button class="pill" data-val="60-80">60 – 80</button>
-              <button class="pill" data-val="above80">Above 80</button>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Tax Regime</label>
-            <div class="pill-group" id="regimeGroup">
-              <button class="pill active" data-val="both">Compare Both</button>
-              <button class="pill" data-val="new">New Only</button>
-              <button class="pill" data-val="old">Old Only</button>
+            <div class="pills" id="agePills">
+              <button class="pill on" data-v="below60">Below 60</button>
+              <button class="pill" data-v="60-80">60 – 80</button>
+              <button class="pill" data-v="above80">Above 80</button>
             </div>
           </div>
         </div>
 
-        <!-- Deductions (Old Regime) -->
-        <div class="deductions-section" id="deductionsSection">
-          <div class="deductions-toggle" id="deductionsToggle">
-            <span>Deductions (Old Regime)</span>
-            <span class="toggle-icon">▼</span>
-          </div>
-          <div class="deductions-body" id="deductionsBody">
-            <div class="form-grid">
-              <div class="form-group">
-                <label>Section 80C (Max ₹1,50,000)</label>
-                <div class="input-wrap"><span class="input-prefix">₹</span>
-                <input type="number" id="d80c" placeholder="150000" min="0" max="150000"></div>
+        <!-- Deductions accordion -->
+        <div class="accordion" id="dedAccordion">
+          <button class="acc-trigger" id="accTrigger">
+            <span>➕ Deductions for Old Regime</span>
+            <span class="acc-arrow">▼</span>
+          </button>
+          <div class="acc-body" id="accBody">
+            <p class="acc-note">Only applies to Old Regime calculation. New Regime uses standard deduction of ₹75,000.</p>
+            <div class="two-col">
+              <div class="field-group">
+                <label>80C — PPF/ELSS/LIC (max ₹1,50,000)</label>
+                <div class="inp-wrap"><span class="inp-sym">₹</span><input type="number" id="d80c" placeholder="150000" min="0" max="150000"></div>
               </div>
-              <div class="form-group">
-                <label>Section 80D – Health (Max ₹25,000)</label>
-                <div class="input-wrap"><span class="input-prefix">₹</span>
-                <input type="number" id="d80d" placeholder="25000" min="0" max="25000"></div>
+              <div class="field-group">
+                <label>80D — Health Insurance (max ₹50,000)</label>
+                <div class="inp-wrap"><span class="inp-sym">₹</span><input type="number" id="d80d" placeholder="25000" min="0" max="50000"></div>
               </div>
-              <div class="form-group">
+              <div class="field-group">
                 <label>HRA Exemption</label>
-                <div class="input-wrap"><span class="input-prefix">₹</span>
-                <input type="number" id="hra" placeholder="0" min="0"></div>
+                <div class="inp-wrap"><span class="inp-sym">₹</span><input type="number" id="hra" placeholder="0" min="0"></div>
               </div>
-              <div class="form-group">
+              <div class="field-group">
                 <label>Other Deductions</label>
-                <div class="input-wrap"><span class="input-prefix">₹</span>
-                <input type="number" id="other" placeholder="0" min="0"></div>
+                <div class="inp-wrap"><span class="inp-sym">₹</span><input type="number" id="other" placeholder="0" min="0"></div>
               </div>
             </div>
           </div>
         </div>
 
         <button class="calc-btn" id="calcBtn">
-          <span id="btnText">Calculate Tax</span>
-          <div class="spinner" id="spinner"></div>
+          <span id="btnLabel">⚡ Calculate Tax Now</span>
+          <div class="spin" id="calcSpin"></div>
         </button>
       </div>
 
       <!-- In-content Ad -->
-      <div class="ad-banner in-content-ad" aria-label="Advertisement">
-        <span class="ad-label">Advertisement</span>
-        <div class="ad-placeholder" style="min-height:90px;display:flex;align-items:center;justify-content:center;color:#888;font-size:13px;">Ad Space (728×90)</div>
-      </div>
+      <div class="ad-strip in-ad"><span class="ad-label">AD</span><div class="ad-ph">Advertisement — 728×90</div></div>
 
-      <!-- Results -->
-      <div id="results" class="results-area hidden">
-        <div class="results-header">
-          <h2>Tax Summary</h2>
-          <button class="share-btn" id="shareBtn">Share Result</button>
-        </div>
+      <!-- RESULTS -->
+      <div id="results" class="hidden">
 
-        <div class="recommendation-banner" id="recBanner"></div>
+        <!-- Recommendation Banner -->
+        <div class="rec-banner" id="recBanner"></div>
 
-        <div class="regime-cards" id="regimeCards"></div>
-
-        <div class="breakdown-section" id="breakdownSection"></div>
-
-        <div class="tips-section">
-          <h3>💡 Tax Saving Tips</h3>
-          <div class="tips-grid">
-            <div class="tip-card"><strong>Section 80C</strong><p>Invest up to ₹1.5L in PPF, ELSS, NSC, or LIC premium to reduce taxable income under old regime.</p></div>
-            <div class="tip-card"><strong>NPS (80CCD)</strong><p>Extra ₹50,000 deduction under Section 80CCD(1B) on National Pension Scheme contributions.</p></div>
-            <div class="tip-card"><strong>Health Insurance</strong><p>Deduct up to ₹25,000 on health insurance premium under 80D. ₹50,000 for senior citizens.</p></div>
-            <div class="tip-card"><strong>HRA Exemption</strong><p>Salaried individuals living in rented homes can claim HRA exemption under old regime.</p></div>
+        <!-- AI Summary -->
+        <div class="ai-card" id="aiCard">
+          <div class="ai-header">
+            <span class="ai-chip">🤖 AI Summary</span>
+            <button class="ai-btn" id="aiBtn">Generate Summary</button>
+          </div>
+          <div class="ai-body" id="aiBody">
+            <p class="ai-hint">Click "Generate Summary" for an AI-powered explanation of your tax calculation.</p>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Sidebar Ad Right -->
-    <aside class="sidebar-ad sidebar-ad-right" aria-label="Advertisement">
-      <span class="ad-label">Advertisement</span>
-      <div class="ad-placeholder" style="min-height:600px;display:flex;align-items:center;justify-content:center;color:#888;font-size:13px;writing-mode:vertical-rl;">Ad Space (160×600)</div>
-    </aside>
-  </div>
+        <!-- Regime Cards -->
+        <div class="regime-grid" id="regimeGrid"></div>
+
+        <!-- Breakdown Tabs -->
+        <div class="card breakdown-card" id="breakdownCard">
+          <h3>📋 Slab-wise Breakdown</h3>
+          <div class="tabs" id="tabs"></div>
+          <div id="tabContent"></div>
+        </div>
+
+        <!-- Deductions Detail (Old Regime) -->
+        <div class="card" id="dedDetail"></div>
+
+        <!-- Tips -->
+        <div class="tips-card">
+          <h3>💡 Tax Saving Tips</h3>
+          <div class="tips-grid" id="tipsGrid"></div>
+        </div>
+
+        <!-- Download PDF Section -->
+        <div class="download-card" id="downloadCard">
+          <div class="dl-left">
+            <div class="dl-icon">📄</div>
+            <div>
+              <h3>Download Detailed PDF Report</h3>
+              <p>Get a professionally formatted report with full breakdown, regime comparison, tips & AI summary — saved as PDF.</p>
+              <ul class="dl-features">
+                <li>✅ Full slab-wise breakdown (both regimes)</li>
+                <li>✅ Personalised tax saving tips</li>
+                <li>✅ AI-generated summary</li>
+                <li>✅ Ready to share with your CA</li>
+              </ul>
+            </div>
+          </div>
+          <div class="dl-right">
+            <div class="price-tag">₹500</div>
+            <p class="price-sub">One-time payment · Secure via Razorpay</p>
+            <button class="pay-btn" id="payBtn">
+              <span id="payLabel">🔒 Pay & Download PDF</span>
+              <div class="spin" id="paySpin"></div>
+            </button>
+            <p class="secure-note">🔐 Powered by Razorpay · UPI · Cards · NetBanking</p>
+          </div>
+        </div>
+
+      </div><!-- /results -->
+    </div><!-- /content-col -->
+
+    <!-- Right Sidebar Ad -->
+    <aside class="sidebar-ad"><span class="ad-label">AD</span><div class="ad-ph vertical">160×600</div></aside>
+  </div><!-- /main-wrap -->
 
   <!-- SEO Content -->
-  <section class="seo-content">
+  <section class="seo">
     <div class="seo-inner">
       <h2>Understanding Indian Income Tax for FY 2025-26</h2>
-      <p>The Indian income tax system operates under two parallel regimes: the <strong>Old Tax Regime</strong> and the <strong>New Tax Regime</strong>. The new regime, introduced in Budget 2020 and revised in 2023 and 2025, offers lower tax rates but doesn't allow most deductions and exemptions that the old regime permits.</p>
-
+      <p>The Indian income tax system offers two regimes for FY 2025-26. The <strong>New Tax Regime</strong> provides lower rates with a standard deduction of ₹75,000 and a full rebate under Section 87A for income up to ₹12 lakh, making it beneficial for most salaried individuals. The <strong>Old Tax Regime</strong> allows various deductions (80C, 80D, HRA, NPS) and may save more tax for those with high eligible deductions.</p>
       <h3>New Tax Regime Slabs (FY 2025-26)</h3>
-      <p>Under the new regime, income up to ₹4,00,000 is fully exempt. From ₹4L to ₹8L, a 5% rate applies. ₹8L to ₹12L attracts 10%, and above ₹12L is taxed at 15%, 20%, and 30% progressively. Importantly, income up to ₹12,00,000 attracts zero tax due to the Section 87A rebate.</p>
-
+      <p>₹0 – ₹4L: Nil | ₹4L – ₹8L: 5% | ₹8L – ₹12L: 10% | ₹12L – ₹16L: 15% | ₹16L – ₹20L: 20% | ₹20L – ₹24L: 25% | Above ₹24L: 30%. Section 87A gives full rebate if income ≤ ₹12L.</p>
       <h3>Old Tax Regime Slabs</h3>
-      <p>The old regime offers a basic exemption of ₹2.5 lakh (₹3L for senior citizens above 60, ₹5L for super seniors above 80). It allows deductions under 80C, 80D, HRA, LTA, and more — making it beneficial for those with high eligible deductions.</p>
-
-      <h3>Section 87A Rebate</h3>
-      <p>Under the new regime, taxpayers with taxable income up to ₹12,00,000 get a full rebate under Section 87A, effectively paying zero tax. Under the old regime, this rebate is ₹12,500 for those with income up to ₹5,00,000.</p>
-
-      <h3>Surcharge & Health and Education Cess</h3>
-      <p>A surcharge of 10% applies if income exceeds ₹50 lakh. This rises to 15% above ₹1 crore, 25% above ₹2 crore, and 37% above ₹5 crore. Additionally, a 4% Health and Education Cess is levied on the tax after surcharge.</p>
+      <p>₹0 – ₹2.5L: Nil | ₹2.5L – ₹5L: 5% | ₹5L – ₹10L: 20% | Above ₹10L: 30%. Senior citizens (60+) get ₹3L basic exemption; super seniors (80+) get ₹5L.</p>
+      <h3>Surcharge & Cess</h3>
+      <p>10% surcharge above ₹50L, 15% above ₹1Cr, 25% above ₹2Cr, 37% above ₹5Cr. A 4% Health and Education Cess applies on tax + surcharge.</p>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="footer-inner">
-    <p class="footer-brand">₹ TaxCalcIndia</p>
-    <p class="footer-note">This calculator provides estimates based on published tax slabs. Always consult a chartered accountant for tax filing. Information is updated for FY 2025-26.</p>
-    <div class="footer-links">
-      <a href="/privacy">Privacy Policy</a>
-      <a href="/terms">Terms & Conditions</a>
-      <a href="/about">About Us</a>
-      <a href="/contact">Contact</a>
+    <p class="f-brand">₹ TaxCalcIndia</p>
+    <p class="f-note">Estimates based on Finance Act 2025 slabs. Always consult a CA for official tax filing.</p>
+    <div class="f-links">
+      <a href="/privacy">Privacy Policy</a><a href="/terms">Terms</a><a href="/about">About</a><a href="/contact">Contact</a>
     </div>
-    <p class="footer-copy">© 2025 TaxCalcIndia. All rights reserved.</p>
+    <p class="f-copy">© 2025 TaxCalcIndia · All rights reserved</p>
   </div>
 </footer>
 
+<script>
+  const RAZORPAY_KEY = "{{ razorpay_key }}";
+</script>
 <script src="/static/js/script.js"></script>
 </body>
 </html>
